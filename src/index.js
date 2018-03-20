@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Root from './components/Root';
 import registerServiceWorker from './registerServiceWorker';
-import './index.css';
+import './stylesheets/screen.scss';
 
 function render(Component) {
   ReactDOM.render(<Component />, document.getElementById('root'));
