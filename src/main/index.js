@@ -1,23 +1,16 @@
-const electron = require('electron');
-const isDev = require('electron-is-dev');
-const path = require('path');
-const url = require('url');
-const resolve = require('./resolve');
+import { app, protocol, BrowserWindow } from 'electron';
+import isDev from 'electron-is-dev';
+import path from 'path';
+import url from 'url';
 
-const { app, protocol, BrowserWindow } = electron;
+import registerNosProtocol from './util/registerNosProtocol';
+import registerAboutProtocol from './util/registerAboutProtocol';
 
 protocol.registerStandardSchemes(['nos']);
 
 function registerProtocol() {
-  protocol.registerHttpProtocol('nos', async (request, callback) => {
-    try {
-      const resolvedUrl = await resolve(url.parse(request.url));
-      const result = Object.assign({}, request, { url: resolvedUrl });
-      callback(result);
-    } catch (error) {
-      callback({ error });
-    }
-  });
+  registerNosProtocol();
+  registerAboutProtocol();
 }
 
 function installExtensions() {
