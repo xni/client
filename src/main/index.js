@@ -58,14 +58,11 @@ function createWindow() {
     })
   );
 
-  mainWindow.loadURL(
-    process.env.ELECTRON_START_URL ||
-      url.format({
-        pathname: path.join(__dirname, '../build/index.html'),
-        protocol: 'file:',
-        slashes: true
-      })
-  );
+  mainWindow.loadURL(process.env.ELECTRON_START_URL || url.format({
+    pathname: path.join(__dirname, isDev ? '../build/index.html' : '../../index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
 
   // When mainWindow finishes loading, then show
   // the mainWindow and desotry the splashWindow.
