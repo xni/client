@@ -47,19 +47,17 @@ function createWindow() {
   // As it is light weight it will load almost instantly and before mainWindow
   splashWindow = new BrowserWindow({ width: 1250, height: 700, show: true });
 
-  splashWindow.loadURL(
-    url.format({
-      pathname: path.join(
-        process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : __dirname,
-        'splash.html'
-      ),
-      protocol: 'file:',
-      slashes: true
-    })
-  );
+  splashWindow.loadURL(url.format({
+    pathname: path.join(
+      process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : __dirname,
+      'splash.html'
+    ),
+    protocol: 'file:',
+    slashes: true
+  }));
 
   mainWindow.loadURL(process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, isDev ? '../build/index.html' : '../../index.html'),
+    pathname: path.join(__dirname, isDev ? '../../index.html' : '../../build/index.html'),
     protocol: 'file:',
     slashes: true
   }));
