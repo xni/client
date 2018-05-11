@@ -2,7 +2,8 @@ import { protocol } from 'electron';
 import ReactDOMServer from 'react-dom/server';
 
 const PAGES = {
-  'about:blank': '../about/blank'
+  'about:blank': '../about/Blank',
+  'about:welcome': '../about/Welcome'
 };
 
 function getBaseURL(href) {
