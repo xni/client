@@ -48,16 +48,13 @@ function createWindow() {
   splashWindow = new BrowserWindow({ width: 1250, height: 700, show: true });
 
   splashWindow.loadURL(url.format({
-    pathname: path.join(
-      process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : __dirname,
-      'splash.html'
-    ),
+    pathname: path.join(process.env.PUBLIC_URL, 'splash.html'),
     protocol: 'file:',
     slashes: true
   }));
 
   mainWindow.loadURL(process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, isDev ? '../../index.html' : '../../build/index.html'),
+    pathname: path.join(process.env.PUBLIC_URL, 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
