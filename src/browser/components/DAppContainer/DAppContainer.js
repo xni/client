@@ -37,12 +37,11 @@ export default class DAppContainer extends React.Component {
     this.webview.addEventListener('did-navigate', this.handleNavigatedToPage);
     this.webview.addEventListener('did-navigate-in-page', this.handleNavigatedToAnchor);
     this.webview.addEventListener('did-fail-load', this.handleNavigateFailed);
-
-    this.webview.src = this.props.target;
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.addressBarEntry && nextProps.requestCount !== this.props.requestCount) {
+      console.log('calling loadURL', nextProps.target);
       this.webview.loadURL(nextProps.target);
     }
   }
@@ -135,8 +134,10 @@ export default class DAppContainer extends React.Component {
   }
 
   attachWebview = () => {
-    const webview = defaultWebviewPool.attachWebview(`webview-${this.props.sessionId}`);
-    this.container.appendChild(webview);
-    return webview;
+    const id = `webview-${this.props.sessionId}`;
+
+    return defaultWebviewPool.attachWebview(id, this.container, (wv) => {
+      wv.src = this.props.target; // eslint-disable-line no-param-reassign
+    });
   }
 }

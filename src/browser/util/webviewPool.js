@@ -10,19 +10,27 @@ export default class WebviewPool {
     this.selector = selector || `#${this.createContainer().id}`;
   }
 
-  attachWebview = (id) => {
-    return this.findWebview(id) || this.createWebview(id);
+  attachWebview = (id, container, callback) => {
+    const webview = this.findWebview(id) || this.createWebview(id, callback);
+    container.appendChild(webview);
+    return webview;
   }
 
   findWebview = (id) => {
     return this.document.querySelector(`${this.selector} #${id}`);
   }
 
-  createWebview = (id) => {
+  createWebview = (id, callback) => {
     const webview = this.document.createElement('webview');
+
     webview.setAttribute('id', id);
     webview.setAttribute('preload', preloadPath);
     webview.style.height = '100%';
+
+    if (callback) {
+      callback(webview);
+    }
+
     return webview;
   }
 
