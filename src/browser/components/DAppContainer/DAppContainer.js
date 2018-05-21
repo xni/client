@@ -1,10 +1,10 @@
-import path from 'path';
 import React from 'react';
 import classNames from 'classnames';
 import { shell } from 'electron';
 import { string, bool, number, func } from 'prop-types';
 
 import RequestsProcessor from '../RequestsProcessor';
+import { defaultWebviewPool } from '../../util/webviewPool';
 import styles from './DAppContainer.scss';
 
 export default class DAppContainer extends React.Component {
@@ -27,6 +27,8 @@ export default class DAppContainer extends React.Component {
   };
 
   componentDidMount() {
+    this.webview = this.attachWebview();
+
     this.webview.addEventListener('console-message', this.handleConsoleMessage);
     this.webview.addEventListener('ipc-message', this.handleIPCMessage);
     this.webview.addEventListener('new-window', this.handleNewWindow);
@@ -55,19 +57,19 @@ export default class DAppContainer extends React.Component {
     this.webview.removeEventListener('did-navigate-in-page', this.handleNavigatedToAnchor);
     this.webview.removeEventListener('did-fail-load', this.handleNavigateFailed);
 
+    // move webview to the pool
+    defaultWebviewPool.unattachWebview(this.webview);
+
     // remove any pending requests from the queue
     this.props.empty(this.props.sessionId);
   }
 
   render() {
     return (
-      <div className={classNames(styles.dAppContainer, this.props.className)}>
-        <webview
-          ref={this.registerRef}
-          preload={this.getPreloadPath()}
-          style={{ height: '100%' }}
-        />
-
+      <div
+        ref={this.registerRef}
+        className={classNames(styles.dAppContainer, this.props.className)}
+      >
         <RequestsProcessor
           sessionId={this.props.sessionId}
           src={this.props.target}
@@ -129,11 +131,12 @@ export default class DAppContainer extends React.Component {
   }
 
   registerRef = (el) => {
-    this.webview = el;
-  };
+    this.container = el;
+  }
 
-  getPreloadPath = () => {
-    const publicPath = process.env.NODE_ENV === 'production' ? __dirname : process.env.PUBLIC_PATH;
-    return `file:${path.join(publicPath, 'preloadRenderer.js')}`;
-  };
+  attachWebview = () => {
+    const webview = defaultWebviewPool.attachWebview(`webview-${this.props.sessionId}`);
+    this.container.appendChild(webview);
+    return webview;
+  }
 }
