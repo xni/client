@@ -6,7 +6,10 @@ import { NavLink } from 'react-router-dom';
 import { string } from 'prop-types';
 import { noop } from 'lodash';
 
-import Icon from 'shared/components/Icon';
+import DAppsIcon from 'shared/images/icons/dapps.svg';
+import AccountIcon from 'shared/images/icons/account.svg';
+import SettingsIcon from 'shared/images/icons/settings.svg';
+import LogoutIcon from 'shared/images/icons/logout.svg';
 import Tooltip from 'shared/components/Tooltip';
 
 import styles from './Navigation.scss';
@@ -18,28 +21,28 @@ export default function Navigation(props) {
         <li>
           <NavLink exact to="/browser" draggable={false} className={styles.link}>
             <Tooltip id="browser" overlay="Browser">
-              <Icon name="browser" aria-describedby="browser" />
+              <DAppsIcon aria-describedby="browser" />
             </Tooltip>
           </NavLink>
         </li>
         <li>
           <NavLink exact to="/account" draggable={false} className={styles.link}>
             <Tooltip id="account" overlay="Account">
-              <Icon name="account" aria-describedby="account" />
+              <AccountIcon aria-describedby="account" />
             </Tooltip>
           </NavLink>
         </li>
         <li>
           <NavLink exact to="/settings" draggable={false} className={styles.link}>
             <Tooltip id="settings" overlay="Settings">
-              <Icon name="settings" aria-describedby="settings" />
+              <SettingsIcon aria-describedby="settings" />
             </Tooltip>
           </NavLink>
         </li>
         <li>
           <NavLink exact to="/logout" draggable={false} className={styles.link}>
             <Tooltip id="logout" overlay="Logout">
-              <Icon name="logout" aria-describedby="logout" />
+              <LogoutIcon aria-describedby="logout" />
             </Tooltip>
           </NavLink>
         </li>
