@@ -1,16 +1,19 @@
 /* eslint-disable consistent-return */
 
 import React from 'react';
+import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
+import { string } from 'prop-types';
+import { noop } from 'lodash';
 
 import Icon from 'shared/components/Icon';
 import Tooltip from 'shared/components/Tooltip';
 
 import styles from './Navigation.scss';
 
-export default function Navigation() {
+export default function Navigation(props) {
   return (
-    <nav className={styles.navigation}>
+    <nav className={classNames(styles.navigation, props.className)}>
       <ul className={styles.group}>
         <li>
           <NavLink exact to="/browser" draggable={false} className={styles.link}>
@@ -44,3 +47,11 @@ export default function Navigation() {
     </nav>
   );
 }
+
+Navigation.propTypes = {
+  className: string
+};
+
+Navigation.defaultProps = {
+  className: noop
+};
